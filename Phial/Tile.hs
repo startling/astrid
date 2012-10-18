@@ -5,15 +5,28 @@ import Phial.Planes
 data Monster = Heroine
   deriving (Show)
 
+-- | Render a monster.
+seeM :: Monster -> Char
+seeM Heroine = '@'
+
 -- | Things that never move.
 data Fixture = Wall
   deriving (Eq, Show)
+
+-- | Render a fixture.
+seeF :: Fixture -> Char
+seeF Wall = '#'
 
 -- | A space that has some monsters and fixtures.
 data Tile = Tile
   { monsters :: [Monster]
   , fixtures :: [Fixture] }
   deriving (Show)
+
+-- | Render a tile.
+seeT (Tile [] []) = '.'
+seeT (Tile (a:_) _) = seeM a
+seeT (Tile [] (a:_)) = seeF a
 
 -- | An empty tile.
 empty = Tile [] []
