@@ -15,6 +15,12 @@ data Tile = Tile
   , fixtures :: [Fixture] }
   deriving (Show)
 
+-- | An empty tile.
+empty = Tile [] []
+
+-- | A tile with just a wall in it.
+walled = Tile [] [Wall]
+
 -- | Tell whether this tile blocks the tiles behind it.
 blocks :: Tile -> Bool
 blocks = elem Wall . fixtures
