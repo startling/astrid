@@ -46,5 +46,8 @@ blocks = elem Wall . fixtures
 seen :: Plane Tile -> Plane Tile
 seen (Plane s) = Plane . fmap viewNS . viewEW $ s
   where
-    viewNS = both (takeWhile (not . blocks))
-    viewEW = both (takeWhile (not . (blocks . view during)))
+    viewNS = both (takeTo (not . blocks))
+    viewEW = both (takeTo (not . (blocks . view during)))
+    takeTo fn ls = case span fn ls of
+      (s, (a:_)) -> s ++ [a]
+      (s, []) -> s
