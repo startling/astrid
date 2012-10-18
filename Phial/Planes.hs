@@ -28,7 +28,8 @@ shiftR :: Line a -> Line a
 shiftR (Line a b (c:d)) = Line (b:a) c d
 
 -- | The two-dimensional equivalent of 'Line'.
-newtype Plane a = Plane (Line (Line a))
+newtype Plane a = Plane
+  { slices :: (Line (Line a)) }
 
 instance Functor Plane where
   fmap fn (Plane l) = Plane . fmap (fmap fn) $ l
