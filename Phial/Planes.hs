@@ -1,12 +1,17 @@
+{-# Language TemplateHaskell #-}
 module Phial.Planes where
 {- idea adapted from
    http://blog.sigfpe.com/2006/12/evaluating-cellular-automata-is.html -}
+-- comonad:
 import Control.Comonad
+-- lens:
+import Control.Lens
 
 data Line a = Line
-  { before :: [a]
-  , during :: a
-  , after  :: [a] }
+  { _before :: [a]
+  , _during :: a
+  , _after  :: [a] }
+makeLenses ''Line
 
 both :: ([a] -> [a]) -> Line a -> Line a
 both f (Line b d a) = Line (f b) d (f a)
@@ -29,7 +34,8 @@ shiftR (Line a b (c:d)) = Line (b:a) c d
 
 -- | The two-dimensional equivalent of 'Line'.
 newtype Plane a = Plane
-  { slices :: (Line (Line a)) }
+  { _slices :: (Line (Line a)) }
+makeLenses ''Plane
 
 instance Functor Plane where
   fmap fn (Plane l) = Plane . fmap (fmap fn) $ l

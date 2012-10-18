@@ -1,4 +1,7 @@
 module Phial.Tile where
+-- lens:
+import Control.Lens (view)
+-- phial:
 import Phial.Planes
 
 -- | Things that know how to move themselves.
@@ -40,8 +43,8 @@ blocks = elem Wall . fixtures
 
 -- | Turn an infinite plane into a (hopefully finite) plane
 -- of visible tiles.
-view :: Plane Tile -> Plane Tile
-view (Plane s) = Plane . fmap viewNS . viewEW $ s
+seen :: Plane Tile -> Plane Tile
+seen (Plane s) = Plane . fmap viewNS . viewEW $ s
   where
     viewNS = both (takeWhile (not . blocks))
-    viewEW = both (takeWhile (not . (blocks . during)))
+    viewEW = both (takeWhile (not . (blocks . view during)))
