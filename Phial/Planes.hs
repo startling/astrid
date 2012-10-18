@@ -3,7 +3,13 @@ module Phial.Planes where
    http://blog.sigfpe.com/2006/12/evaluating-cellular-automata-is.html -}
 import Control.Comonad
 
-data Line a = Line [a] a [a]
+data Line a = Line
+  { before :: [a]
+  , during :: a
+  , after  :: [a] }
+
+both :: ([a] -> [a]) -> Line a -> Line a
+both f (Line b d a) = Line (f b) d (f a)
 
 instance Functor Line where
   fmap fn (Line a b c) = Line (map fn a) (fn b) (map fn c)
