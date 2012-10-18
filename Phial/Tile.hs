@@ -1,7 +1,7 @@
 module Phial.Tile where
 
 -- | Things that know how to move themselves.
-data Monster = Hero
+data Monster = Heroine
 
 -- | Things that never move.
 data Fixture = Wall
