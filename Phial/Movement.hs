@@ -25,3 +25,9 @@ move m p = (,) tile . flip map (view monsters tile) $ (id &&& const m)
 -- | Resolve the movements into this tile.
 resolve :: Plane (Tile, [(Monster, Move)]) -> Tile
 resolve p  = p ^.focus._1
+
+-- TODO: resolve movements into tiles -- Transition structure?
+-- TODO: deal with collisions somehow
+-- TODO: deal with can't-fit somehow.
+-- TODO: long-range magic/attacks?
+-- TODO: log messages.
