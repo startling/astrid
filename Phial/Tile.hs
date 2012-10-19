@@ -32,9 +32,11 @@ seeT (Tile (a:_) _) = seeM a
 seeT (Tile [] (a:_)) = seeF a
 
 -- | An empty tile.
+empty :: Tile
 empty = Tile [] []
 
 -- | A tile with just a wall in it.
+walled :: Tile
 walled = Tile [] [Wall]
 
 -- | Tell whether this tile blocks the tiles behind it.
