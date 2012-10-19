@@ -19,10 +19,10 @@ data Move = Null | Move Direction
 -- given the player character's move.
 -- TODO : let non-pc monsters move.
 move :: Move -> Plane Tile -> (Tile, [(Monster, Move)])
-move m (Plane p) = (,) tile $ flip map (monsters tile) . (id &&&)
+move m p = (,) tile $ flip map (monsters tile) . (id &&&)
   $ \c -> m
-  where tile = p ^. during.during
+  where tile = p ^. focus
 
 -- | Resolve the movements into this tile.
 resolve :: Plane (Tile, [(Monster, Move)]) -> Tile
-resolve (Plane p) = p ^. during.during._1
+resolve p  = p ^.focus._1
