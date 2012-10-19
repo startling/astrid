@@ -47,35 +47,37 @@ instance Comonad Plane where
                         (tail . iterate (fmap shiftR) $ a)
 
 -- | Pan a plane leftwards.
-panLeft :: Plane a -> Plane a
-panLeft = slices %~ shiftL
+panLeft :: Simple Iso (Plane a) (Plane a)
+panLeft = iso (slices %~ shiftL) (view panRight)
 
 -- | Pan a plaine rightwards.
-panRight :: Plane a -> Plane a
-panRight = slices %~ shiftR
+panRight :: Simple Iso (Plane a) (Plane a)
+panRight = iso (slices %~ shiftL) (view panLeft)
 
 -- | Pan a plane upwards.
-panUp :: Plane a -> Plane a
-panUp = slices %~ fmap shiftL
+panUp :: Simple Iso (Plane a) (Plane a)
+panUp = iso (slices %~ fmap shiftL) (view panDown)
 
 -- | Pan a plane downwards.
-panDown :: Plane a -> Plane a
-panDown = slices %~ fmap shiftR
+panDown :: Simple Iso (Plane a) (Plane a)
+panDown = iso (slices %~ fmap shiftR) (view panUp)
 
 -- | A lens on the focused tile of a plane.
-focused :: Simple Lens (Plane a) a
-focused = slices . during . during
+focus :: Simple Lens (Plane a) a
+focus = slices . during . during
 
--- | Get the tile to the immediate left.
-toLeft = view focused . panLeft
+-- | A lens on the tile to the immediate left.
+toLeft :: Simple Lens (Plane a) a
+toLeft = panLeft . focus
 
--- | Get the tile to the immediate right.
-toRight = view focused . panLeft
+-- | A lens on the tile to the immediate right.
+toRight :: Simple Lens (Plane a) a
+toRight = panRight . focus
 
--- | Get the tile immediately south of the current one.
-below :: Plane d -> d
-below = view focused . panDown
+-- | A lens on the tile immediately south.
+below :: Simple Lens (Plane a) a
+below = panDown . focus
 
--- | Get the tile immediately north of the current one.
-above :: Plane d -> d
-above = view focused . panUp
+-- | A lens on the tile immediately north.
+above :: Simple Lens (Plane a) a
+above = panUp . focus
