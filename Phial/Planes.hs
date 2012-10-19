@@ -61,3 +61,21 @@ panUp = slices %~ fmap shiftL
 -- | Pan a plane downwards.
 panDown :: Plane a -> Plane a
 panDown = slices %~ fmap shiftR
+
+-- | A lens on the focused tile of a plane.
+focused :: Simple Lens (Plane a) a
+focused = slices . during . during
+
+-- | Get the tile to the immediate left.
+toLeft = view focused . panLeft
+
+-- | Get the tile to the immediate right.
+toRight = view focused . panLeft
+
+-- | Get the tile immediately south of the current one.
+below :: Plane d -> d
+below = view focused . panDown
+
+-- | Get the tile immediately north of the current one.
+above :: Plane d -> d
+above = view focused . panUp
