@@ -1,5 +1,9 @@
 module Phial.Movement where
+-- base:
+import Control.Arrow ((&&&))
+-- lens:
 import Control.Lens
+-- phial:
 import Phial.Planes
 import Phial.Tile
 
@@ -13,9 +17,11 @@ data Move = Null | Move Direction
 
 -- | Give all the monsters in a tile a chance to do stuff,
 -- given the player character's move.
--- TODO: actually query for Moves.
+-- TODO : let non-pc monsters move.
 move :: Move -> Plane Tile -> (Tile, [(Monster, Move)])
-move m (Plane p) = (p ^. during.during, [])
+move m (Plane p) = (,) tile $ flip map (monsters tile) . (id &&&)
+  $ \c -> m
+  where tile = p ^. during.during
 
 -- | Resolve the movements into this tile.
 resolve :: Plane (Tile, [(Monster, Move)]) -> Tile
