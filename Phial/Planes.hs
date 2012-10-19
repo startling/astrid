@@ -45,3 +45,19 @@ instance Comonad Plane where
   duplicate (Plane s) = fmap Plane . Plane . roll . roll $ s
     where roll a = Line (tail . iterate (fmap shiftL) $ a) a
                         (tail . iterate (fmap shiftR) $ a)
+
+-- | Pan a plane leftwards.
+panLeft :: Plane a -> Plane a
+panLeft = slices %~ shiftL
+
+-- | Pan a plaine rightwards.
+panRight :: Plane a -> Plane a
+panRight = slices %~ shiftR
+
+-- | Pan a plane upwards.
+panUp :: Plane a -> Plane a
+panUp = slices %~ fmap shiftL
+
+-- | Pan a plane downwards.
+panDown :: Plane a -> Plane a
+panDown = slices %~ fmap shiftR
