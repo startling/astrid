@@ -1,6 +1,7 @@
+{-# Language TemplateHaskell #-}
 module Phial.Tile where
 -- lens:
-import Control.Lens (view)
+import Control.Lens (view, makeLenses)
 -- phial:
 import Phial.Planes
 
@@ -22,9 +23,10 @@ seeF Wall = '#'
 
 -- | A space that has some monsters and fixtures.
 data Tile = Tile
-  { monsters :: [Monster]
-  , fixtures :: [Fixture] }
+  { _monsters :: [Monster]
+  , _fixtures :: [Fixture] }
   deriving (Show)
+makeLenses ''Tile
 
 -- | Render a tile.
 seeT (Tile [] []) = '.'
@@ -41,7 +43,7 @@ walled = Tile [] [Wall]
 
 -- | Tell whether this tile blocks the tiles behind it.
 blocks :: Tile -> Bool
-blocks = elem Wall . fixtures
+blocks = elem Wall . view fixtures
 
 -- | Turn an infinite plane into a (hopefully finite) plane
 -- of visible tiles.
