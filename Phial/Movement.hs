@@ -7,10 +7,6 @@ import Control.Lens
 import Phial.Planes
 import Phial.Tile
 
--- | Encode possible directions to move into a type.
-data Direction = N | E | S | W | NE | NW | SE | SW
-  deriving (Eq, Ord, Show, Enum)
-
 -- | Things can move or stay still.
 data Move = Null | Move Direction
   deriving (Eq, Show)

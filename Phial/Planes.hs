@@ -46,42 +46,28 @@ instance Comonad Plane where
     where roll a = Line (tail . iterate (fmap shiftL) $ a) a
                         (tail . iterate (fmap shiftR) $ a)
 
--- | Pan a plane leftwards.
-panLeft :: Simple Iso (Plane a) (Plane a)
-panLeft = iso (slices %~ shiftL) (view panRight)
+-- | Encode possible directions to move into a type.
+data Direction = N | E | S | W | NE | NW | SE | SW
+  deriving (Eq, Ord, Show, Enum)
 
--- | Pan a plaine rightwards.
-panRight :: Simple Iso (Plane a) (Plane a)
-panRight = iso (slices %~ shiftL) (view panLeft)
-
--- | Pan a plane upwards.
-panUp :: Simple Iso (Plane a) (Plane a)
-panUp = iso (slices %~ fmap shiftL) (view panDown)
-
--- | Pan a plane downwards.
-panDown :: Simple Iso (Plane a) (Plane a)
-panDown = iso (slices %~ fmap shiftR) (view panUp)
-
+-- | Move the focus of a Plane in some direction.
+pan :: Direction -> Simple Lens (Plane a) (Plane a)
+pan d = case d of
+  E -> iso (slices %~ shiftL) (view (pan W))
+  S -> iso (slices %~ fmap shiftR) (view (pan N))
+  W -> iso (slices %~ shiftR) (view (pan E))
+  N -> iso (slices %~ fmap shiftL) (view (pan S))
+  NE -> pan N . pan E; NW -> pan N . pan W
+  SE -> pan S . pan E; SW -> pan S . pan W
+  
 -- | A lens on the focused tile of a plane.
 focus :: Simple Lens (Plane a) a
 focus = slices . during . during
 
--- | A lens on the tile to the immediate left.
-toLeft :: Simple Lens (Plane a) a
-toLeft = panLeft . focus
-
--- | A lens on the tile to the immediate right.
-toRight :: Simple Lens (Plane a) a
-toRight = panRight . focus
-
--- | A lens on the tile immediately south.
-below :: Simple Lens (Plane a) a
-below = panDown . focus
-
--- | A lens on the tile immediately north.
-above :: Simple Lens (Plane a) a
-above = panUp . focus
+-- | A lens on the tile in some direction.
+adjacent :: Direction -> Simple Lens (Plane a) a
+adjacent d = pan d . focus
 
 -- | All the tiles surrounding the focus of the plane.
 surround :: Plane d -> [d]
-surround p = map (flip view p) [toLeft, toRight, below, above]
+surround p = map (flip view p. adjacent) [N ..]
