@@ -47,6 +47,10 @@ blocks = elem Wall . view fixtures
 
 -- | Turn an infinite plane into a (hopefully finite) plane
 -- of visible tiles.
+-- TODO: do this comonadically: mark each Tile with a Bool
+-- to see how visible they are, mark the center with True,
+-- go through and mark any tile as visible with one visible,
+-- non-blocking neighbor.
 seen :: Plane Tile -> Plane Tile
 seen (Plane s) = Plane . fmap viewNS . viewEW $ s
   where
