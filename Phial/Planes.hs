@@ -81,3 +81,7 @@ below = panDown . focus
 -- | A lens on the tile immediately north.
 above :: Simple Lens (Plane a) a
 above = panUp . focus
+
+-- | All the tiles surrounding the focus of the plane.
+surround :: Plane d -> [d]
+surround p = map (flip view p) [toLeft, toRight, below, above]
