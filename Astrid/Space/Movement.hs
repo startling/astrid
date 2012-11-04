@@ -51,6 +51,6 @@ resolve w = (w ^. focus . _1) ++ toHere w
       (M.lookup (inverse a) (w ^. one a . _2))
 
 -- | Move each monster, given the player character's move.
-run :: (Ord d, Comonad w, World w d) => Maybe d -> w Tile -> w Tile
-run d w = w =>> make d =>> resolve
+move :: (Ord d, Comonad w, World w d) => Maybe d -> w Tile -> w Tile
+move d w = w =>> make d =>> resolve
 -- TODO: verify that all moves are allowed.
