@@ -10,12 +10,12 @@ class Direction d where
   -- | Invert a given direction.
   inverse :: d -> d
 
-class Direction d => World w d | w -> d where
+class Direction d => Space w d | w -> d where
   -- | A lens on the worlds shifted from this one.
   shift :: d -> Simple Lens (w a) (w a)
   -- | The focused tile of this world.
   focus :: Simple Lens (w a) a
 
 -- | A lens on a neighboring tile.
-one :: (World w d) => d -> Simple Lens (w a) a
+one :: (Space w d) => d -> Simple Lens (w a) a
 one x = shift x . focus

@@ -25,7 +25,7 @@ instance Direction D1 where
   inverse Back = Ahead
   inverse Ahead = Back
 
-instance World Line D1 where
+instance Space Line D1 where
   focus = during
   shift x fn (Line (a : b) c (d : e)) = fn $ case x of
     Back -> Line (c : a : b) d e
