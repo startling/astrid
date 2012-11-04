@@ -1,12 +1,12 @@
 {-# Language TemplateHaskell #-}
 {-# Language MultiParamTypeClasses #-}
-module Astrid.Line where
+module Astrid.Space.Line where
 -- comonad:
 import Control.Comonad
 -- lens:
 import Control.Lens 
 -- astrid:
-import Astrid.Worlds
+import Astrid.Space
 
 -- | A line with tiles stretching in each direction to infinity.
 data Line a = Line

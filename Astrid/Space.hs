@@ -1,6 +1,6 @@
 {-# Language MultiParamTypeClasses #-}
 {-# Language FunctionalDependencies #-}
-module Astrid.Worlds where
+module Astrid.Space where
 -- lens:
 import Control.Lens
 

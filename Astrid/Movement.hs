@@ -10,7 +10,7 @@ import Control.Comonad
 -- lens:
 import Control.Lens
 -- astrid:
-import Astrid.Worlds
+import Astrid.Space
 import Astrid.Objects
 
 -- | Given the player's chosen direction to move, let all
