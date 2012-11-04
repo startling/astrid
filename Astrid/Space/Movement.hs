@@ -1,4 +1,4 @@
-module Atrid.Movement where
+module Astrid.Space.Movement where
 -- containers:
 import Control.Arrow ((&&&))
 import Data.List (partition)
