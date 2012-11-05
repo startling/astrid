@@ -1,8 +1,0 @@
-* [x] rename World
-* [x] should `shift' be an isomorphism? (yes, kind of)
-* [ ] render lines
-* [ ] a two-dimensional Space
-* [ ] render those
-* [ ] can I generalize rendering one- and two-dimensional spaces?
-* [ ] merge with phial
-* [ ] pathfinding / raycasting?
