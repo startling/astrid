@@ -18,6 +18,10 @@ plane = isomorphic (\fn -> fmap Plane . fn . unPlane)
   (\fn -> fmap unPlane . fn . Plane)
   where unPlane (Plane a) = a
 
+-- | Utility function to limit a plane to x cells in each direction.
+limit' :: Int -> Plane a -> Plane a
+limit' n = plane %~ limit n . fmap (limit n) 
+
 data D2 = N | E | W | S
   deriving (Eq, Show, Ord)
 
