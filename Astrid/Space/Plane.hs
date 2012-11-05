@@ -2,6 +2,8 @@
 module Astrid.Space.Plane where
 -- lens:
 import Control.Lens
+-- comonad:
+import Control.Comonad
 -- astrid:
 import Astrid.Space
 import Astrid.Space.Line
@@ -26,8 +28,15 @@ instance Direction D2 where
   inverse S = N
   inverse W = E
 
+instance Functor Plane where
+  fmap fn (Plane a) = Plane . fmap (fmap fn) $ a
+
 instance Space Plane D2 where
   focus = plane . focus . focus
+  shift d fn (Plane a) = fn . Plane $ case d of
+    N -> a ^. shift Ahead
+    S -> a ^. shift Back
+    W -> fmap (^. shift Ahead) a
+    E -> fmap (^. shift Back) a
 
--- TODO: write shift
 -- TODO: comonad instance
