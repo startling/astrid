@@ -32,7 +32,7 @@ instance Functor Line where
 
 instance Comonad Line where
   extract = view focus
-  extend f l = flip Line (f l)
-    (map f . done (^. shift Back) $ l)
-    (map f . done (^. shift Ahead) $ l)
-    where done f x = iterate f (f x)
+  extend f l = fmap f $ Line (to Back l) l (to Ahead l)
+    where
+     -- Make a list by repeatedly shifting this way.
+     to d = let f = (^. shift d) in iterate f . f
