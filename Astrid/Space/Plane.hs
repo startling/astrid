@@ -39,4 +39,10 @@ instance Space Plane D2 where
     W -> fmap (^. shift Ahead) a
     E -> fmap (^. shift Back) a
 
--- TODO: comonad instance
+instance Comonad Plane where
+  extract = view focus
+  duplicate (Plane s) = fmap Plane . Plane . roll . roll $ s
+    where
+     roll :: Line (Line a) -> Line (Line (Line a))
+     roll l = Line (to Back l) l (to Ahead l)
+       where to d = let f = fmap (^. shift d) in iterate f . f
