@@ -24,8 +24,8 @@ instance Space Line D1 where
   focus fn (Line a b c) = fn b <&> \f -> Line a f c
     where (<&>) = flip fmap
   shift x fn (Line (a : b) c (d : e)) = fn $ case x of
-    Back -> Line (c : a : b) d e
-    Ahead -> Line b a (c : d : e)
+    Ahead -> Line (c : a : b) d e
+    Back -> Line b a (c : d : e)
 
 instance Functor Line where
   fmap fn (Line b d a) = Line (map fn b) (fn d) (map fn a)
