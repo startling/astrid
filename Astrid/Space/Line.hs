@@ -36,3 +36,7 @@ instance Comonad Line where
     where
      -- Make a list by repeatedly shifting this way.
      to d = let f = (^. shift d) in iterate f . f
+
+-- | Utility function to limit a Line to x cells in each direction.
+limit :: Int -> Line a -> Line a
+limit n (Line a b c) = Line (take n a) b (take n c)
