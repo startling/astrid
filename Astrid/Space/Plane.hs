@@ -37,11 +37,11 @@ instance Functor Plane where
 
 instance Space Plane D2 where
   focus = plane . focus . focus
-  shift d fn (Plane a) = fn . Plane $ case d of
-    N -> a ^. shift Ahead
-    S -> a ^. shift Back
-    W -> fmap (^. shift Ahead) a
-    E -> fmap (^. shift Back) a
+  shift d (Plane a) = Plane $ case d of
+    N -> a ^. shifted Ahead
+    S -> a ^. shifted Back
+    W -> fmap (^. shifted Ahead) a
+    E -> fmap (^. shifted Back) a
 
 instance Comonad Plane where
   extract = view focus
@@ -49,4 +49,4 @@ instance Comonad Plane where
     where
      roll :: Line (Line a) -> Line (Line (Line a))
      roll l = Line (to Back l) l (to Ahead l)
-       where to d = let f = fmap (^. shift d) in iterate f . f
+       where to d = let f = fmap (^. shifted d) in iterate f . f
