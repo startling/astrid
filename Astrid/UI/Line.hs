@@ -1,4 +1,4 @@
-module Astrid.Rendering.Line where
+module Astrid.UI.Line where
 -- astrid:
 import Astrid.Space.Line
 import Astrid.Objects

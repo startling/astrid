@@ -2,7 +2,7 @@
 import Astrid.Objects
 import Astrid.Space
 import Astrid.Space.Line
-import Astrid.Rendering.Line
+import Astrid.UI.Line
 -- curslet:
 import UI.Curslet
 import UI.Curslet.Ncurses

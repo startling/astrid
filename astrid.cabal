@@ -11,7 +11,7 @@ Library
     , Astrid.Space
     , Astrid.Space.Line
     , Astrid.Space.Plane
-    , Astrid.Rendering.Line
+    , Astrid.UI.Line
   build-depends:
       base
     , comonad
