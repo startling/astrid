@@ -10,8 +10,15 @@ import UI.Curslet.Ncurses
 import Control.Lens
 
 main :: IO ()
-main = runNcurses $ do
-  -- Make a world empty but for our Heroine.
-  let line = focus %~ (:) Heroine $ only empty
-  refresh $ renderLine line
-  getch >> return ()
+main = runNcurses $ run line
+  -- Make a world empty but for our heroine.
+  where line = focus %~ (:) Heroine $ only empty
+
+run :: Curslet m w => Line Tile -> m ()
+run world = do
+  refresh $ renderLine world
+  char <- getch
+  case char of
+    Just 'q' -> return ()
+    Nothing -> run world
+    Just c -> run world
