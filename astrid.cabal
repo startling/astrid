@@ -11,12 +11,14 @@ Library
     , Astrid.Space
     , Astrid.Space.Line
     , Astrid.Space.Plane
+    , Astrid.Space.Movement
     , Astrid.UI.Line
   build-depends:
       base
     , comonad
     , lens
     , curslet
+    , containers
 Executable line-test
   main-is: bin/line-test.hs
   build-depends:
