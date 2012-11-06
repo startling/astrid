@@ -5,6 +5,9 @@ import Astrid.Objects
 -- curslet:
 import UI.Curslet
 
+lineKey :: Char -> Maybe D1
+lineKey c = lookup c [('h', Back), ('l', Ahead)]
+
 renderLine :: Curslet m w => Line Tile -> m ()
 renderLine line = do
   let (Line b d a) = fmap seeTile line
