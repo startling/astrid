@@ -5,6 +5,7 @@ import Data.List (partition)
 import Data.Map (Map)
 import qualified Data.Map as M
 import Data.Maybe (isJust, maybeToList)
+import Data.Foldable (foldMap)
 -- comonad:
 import Control.Comonad
 -- lens:
@@ -27,19 +28,16 @@ type Movements d = Map d [Monster]
 -- in a Movements for the next step.
 make :: (Ord d, Space w d)
   => Maybe d -> w Tile -> (Tile, Movements d)
-make d w = over _2 (foldr add M.empty . map f)
-  -- Separate it into (Tile, [(Monster, Maybe d)]
-  . over _1 (map fst) . partition (isJust . snd)
-  -- Turn this whole thing into [(Monster, Maybe d)]
-  . map ((snd &&& uncurry (choose d)) . (,) w) $ view focus w
+make d w = _2 %~ foldr add M.empty $ turn (choose d w) (view focus w)
   where
-    f (m, Just x) = (x, m)
-    -- add a v to a Map k [v].
-    add :: Ord k => (k, v) -> Map k [v] -> Map k [v]
-    add (a, b) m = insert m a . (:) b . maybe [] id
-      . flip M.lookup m $ a
-    -- insert with arguments flipped for convenience.
-    insert m k v = M.insert k v m
+    -- Given an "a -> Maybe b" function, sort out the ones for whom
+    -- the function returns Nothing from an [a].
+    turn :: (a -> Maybe b) -> [a] -> ([a], [(a, b)])
+    turn fn = foldMap $ \a -> maybe ([a], [])
+      (\n -> ([], [(a, n)])) (fn a)
+    -- Build a "Map d [m]" out of some (m, d) pairs.
+    add :: Ord d => (m, d) -> Map d [m] -> Map d [m]
+    add (m, a) = at a %~ Just . maybe [m] (m :)
 
 -- | Move all the monsters that are in the midst of moving.
 resolve :: (Ord d, Space w d) => w (Tile, Movements d) -> [Monster]
