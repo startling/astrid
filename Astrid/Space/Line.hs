@@ -40,3 +40,7 @@ instance Comonad Line where
 -- | Utility function to limit a Line to x cells in each direction.
 limit :: Int -> Line a -> Line a
 limit n (Line a b c) = Line (take n a) b (take n c)
+
+-- | Make a line composed entirely of this element.
+only :: a -> Line a
+only a = let r = repeat a in Line r a r
