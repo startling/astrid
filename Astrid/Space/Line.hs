@@ -3,7 +3,7 @@ module Astrid.Space.Line where
 -- comonad:
 import Control.Comonad (Comonad(..))
 -- lens:
-import Control.Lens ((^.), view)
+import Control.Lens
 -- astrid:
 import Astrid.Space
 
@@ -23,9 +23,9 @@ instance Direction D1 where
 instance Space Line D1 where
   focus fn (Line a b c) = fn b <&> \f -> Line a f c
     where (<&>) = flip fmap
-  shift x fn (Line (a : b) c (d : e)) = fn $ case x of
-    Ahead -> Line (c : a : b) d e
-    Back -> Line b a (c : d : e)
+  shift x (Line (a : as) b (c : cs)) = case x of
+    Ahead -> Line (b : a : as) c cs
+    Back -> Line as a (b : c : cs)
 
 instance Functor Line where
   fmap fn (Line b d a) = Line (map fn b) (fn d) (map fn a)
@@ -35,7 +35,7 @@ instance Comonad Line where
   extend f l = fmap f $ Line (to Back l) l (to Ahead l)
     where
      -- Make a list by repeatedly shifting this way.
-     to d = let f = (^. shift d) in iterate f . f
+     to d = let f = (^. shifted d) in iterate f . f
 
 -- | Utility function to limit a Line to x cells in each direction.
 limit :: Int -> Line a -> Line a
