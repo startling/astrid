@@ -13,7 +13,7 @@ data Line a = Line [a] a [a]
 
 -- | You can move in one of two directions along these lines.
 data D1 = Ahead | Back
-  deriving (Eq, Show, Enum)
+  deriving (Eq, Show, Ord)
 
 instance Direction D1 where
   directions = [Ahead, Back]
