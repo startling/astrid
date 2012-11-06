@@ -14,8 +14,7 @@ newtype Plane a = Plane (Line (Line a))
 
 -- | Planes are isomorphic to their (Line (Line a))s.
 plane :: Simple Iso (Plane a) (Line (Line a))
-plane = isomorphic (\fn -> fmap Plane . fn . unPlane)
-  (\fn -> fmap unPlane . fn . Plane)
+plane = iso unPlane Plane
   where unPlane (Plane a) = a
 
 -- | Utility function to limit a plane to x cells in each direction.
