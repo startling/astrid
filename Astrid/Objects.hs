@@ -9,6 +9,10 @@ data Monster = Heroine
 -- | A tile is just a list of monsters.
 type Tile = [Monster]
 
+-- | The empty tile.
+empty :: Tile
+empty = []
+
 -- | Render a monster.
 seeM :: Monster -> Char
 seeM Heroine = '@'
