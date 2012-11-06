@@ -17,3 +17,10 @@ Library
     , comonad
     , lens
     , curslet
+Executable line-test
+  main-is: bin/line-test.hs
+  build-depends:
+      base
+    , curslet
+  extra-libraries:
+      ncurses
