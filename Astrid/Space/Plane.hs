@@ -22,6 +22,10 @@ plane = isomorphic (\fn -> fmap Plane . fn . unPlane)
 limit' :: Int -> Plane a -> Plane a
 limit' n = plane %~ limit n . fmap (limit n) 
 
+-- | Create a plane of only this element.
+only' :: a -> Plane a
+only' = Plane . only . only
+
 data D2 = N | E | W | S
   deriving (Eq, Show, Ord)
 
