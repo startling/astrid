@@ -2,6 +2,7 @@
 import Astrid.Objects
 import Astrid.Space
 import Astrid.Space.Line
+import Astrid.Space.Movement
 import Astrid.UI.Line
 -- curslet:
 import UI.Curslet
@@ -21,4 +22,6 @@ run world = do
   case char of
     Just 'q' -> return ()
     Nothing -> run world
-    Just c -> run world
+    Just c -> case lineKey c of
+      Just d -> run $ go (Just d) world
+      Nothing -> run world
