@@ -1,0 +1,28 @@
+Name: astrid
+Author: startling
+License: MIT
+Version: 0.0.0
+Description: Infinite comonadic roguelike.
+Cabal-Version: >= 1.2
+Build-Type: Simple
+Library
+  exposed-modules:
+      Astrid.Objects
+    , Astrid.Space
+    , Astrid.Space.Line
+    , Astrid.Space.Plane
+    , Astrid.Space.Movement
+    , Astrid.UI.Line
+  build-depends:
+      base
+    , comonad
+    , lens
+    , curslet
+    , containers
+Executable line-test
+  main-is: bin/line-test.hs
+  build-depends:
+      base
+    , curslet
+  extra-libraries:
+      ncurses
